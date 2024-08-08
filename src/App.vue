@@ -1,26 +1,40 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { storeToRefs } from 'pinia'
+
+import { useCounterStore } from '@/stores/counter'
+
+const countStore = useCounterStore()
+const { startIncrement } = countStore
+const { count } = storeToRefs(countStore)
+
+startIncrement()
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+    <p style="font-size: 50px">{{ count }}</p>
 
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/auth/sign-up">회원가입</RouterLink>
+        <RouterLink to="/auth/sign-up/result">나이스 인증 결과</RouterLink>
       </nav>
     </div>
   </header>
 
-  <RouterView />
+  <div class="wrap"><RouterView /></div>
 </template>
 
 <style scoped>
+.wrap {
+  border: 2px solid #333;
+
+  padding: 1rem;
+}
+
 header {
   line-height: 1.5;
   max-height: 100vh;
@@ -33,13 +47,14 @@ header {
 
 nav {
   width: 100%;
-  font-size: 12px;
+  font-size: 20px;
   text-align: center;
-  margin-top: 2rem;
+  margin: 2rem auto;
 }
 
 nav a.router-link-exact-active {
   color: var(--color-text);
+  font-weight: 900;
 }
 
 nav a.router-link-exact-active:hover {
